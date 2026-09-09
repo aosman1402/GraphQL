@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GraphQL</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- ================= LOGIN PAGE ================= -->
+<main id="login-page" class="page">
+<section class="login-card">
+<div class="logo">01</div>
+<h1>Welcome back</h1>
+<p class="subtitle">Sign in to view your 01Founders profile.</p>
+
+<form id="login-form" method="post" action="javascript:void(0);">
+<div class="form-group">
+<label for="username">Username</label>
+<input type="text" id="username" name="username" autocomplete="username" placeholder="Enter your username" required>
+</div>
+
+<div class="form-group">
+<label for="password">Password</label>
+<input type="password" id="password" name="password" autocomplete="current-password" placeholder="Enter your password" required>
+</div>
+
+<button type="submit" id="login-button">Login</button>
+<p id="login-error" class="error-message" aria-live="polite"></p>
+</form>
+</section>
+</main>
+
+<!-- ================= PROFILE PAGE ================= -->
+<main id="profile-page" class="page hidden">
+<!-- PROFILE HEADER -->
+<header class="profile-header">
+<div>
+<p class="eyebrow">01FOUNDERS</p>
+<h1>My Profile</h1>
+</div>
+<button id="logout-button" class="logout-button" type="button">Logout</button>
+</header>
+
+<!-- PROFILE CONTENT -->
+<section class="profile-content">
+
+<!-- PROFILE CARD -->
+<article class="profile-card">
+<div id="profile-avatar" class="profile-avatar">?</div>
+<div class="profile-info">
+<p class="profile-label">Username</p>
+<h2 id="profile-login">Loading...</h2>
+<p id="profile-id" class="profile-id">ID: -</p>
+</div>
+</article>
+
+<!-- BASIC STATS -->
+<section class="stats-grid">
+<article class="stat-card">
+<span class="stat-label">XP</span>
+<strong id="profile-xp">-</strong>
+</article>
+<article class="stat-card">
+<span class="stat-label">Audit Ratio</span>
+<strong id="profile-audit-ratio">-</strong>
+</article>
+<article class="stat-card">
+<span class="stat-label">Campus</span>
+<strong id="profile-campus">-</strong>
+</article>
+</section>
+
+<!-- STATISTICS SECTION -->
+<section class="statistics">
+<div class="section-heading">
+<p class="eyebrow">STATISTICS</p>
+<h2>Your Progress</h2>
+<p>A visual overview of your 01Founders activity.</p>
+</div>
+
+<!-- GRAPH 1 — AUDIT RATIO -->
+<article class="graph-card">
+<div class="graph-header">
+<div>
+<p class="eyebrow">GRAPH 01</p>
+<h3>Audit Ratio</h3>
+<p>Audits given compared with audits received.</p>
+</div>
+<div class="graph-value">
+<span id="audit-ratio-value">-</span>
+<small>ratio</small>
+</div>
+</div>
+
+<div class="audit-chart-container">
+<svg id="audit-chart" viewBox="0 0 300 300" role="img" aria-label="Audit ratio chart">
+<circle cx="150" cy="150" r="100" fill="none" stroke="#e5e7eb" stroke-width="30"></circle>
+<circle id="audit-given-circle" cx="150" cy="150" r="100" fill="none" stroke="#111827" stroke-width="30" stroke-linecap="round" transform="rotate(-90 150 150)"></circle>
+<circle id="audit-received-circle" cx="150" cy="150" r="100" fill="none" stroke="#d1d5db" stroke-width="30" stroke-linecap="round" transform="rotate(-90 150 150)"></circle>
+<text id="audit-center-value" x="150" y="145" text-anchor="middle" dominant-baseline="middle">-</text>
+<text id="audit-center-label" x="150" y="175" text-anchor="middle">RATIO</text>
+</svg>
+</div>
+
+<div class="audit-legend">
+<div class="legend-item">
+<span class="legend-dot given"></span>
+<div>
+<strong>Given</strong>
+<span id="audits-given">-</span>
+</div>
+</div>
+<div class="legend-item">
+<span class="legend-dot received"></span>
+<div>
+<strong>Received</strong>
+<span id="audits-received">-</span>
+</div>
+</div>
+</div>
+</article>
+
+<!-- GRAPH 2 — PROJECT PASS / FAIL -->
+<article class="graph-card">
+<div class="graph-header">
+<div>
+<p class="eyebrow">GRAPH 02</p>
+<h3>Project Results</h3>
+<p>Your project PASS and FAIL results.</p>
+</div>
+<div class="graph-value">
+<span id="project-pass-percentage">-</span>
+<small>pass rate</small>
+</div>
+</div>
+
+<div class="project-chart-container">
+<svg id="project-pass-fail-chart" viewBox="0 0 300 300" role="img" aria-label="Project pass fail chart">
+<circle id="project-chart-background" cx="150" cy="150" r="100"></circle>
+<circle id="project-pass-circle" cx="150" cy="150" r="100"></circle>
+<circle id="project-fail-circle" cx="150" cy="150" r="100"></circle>
+<text id="project-total-text" x="150" y="145" text-anchor="middle" dominant-baseline="middle">0</text>
+<text id="project-total-label" x="150" y="175" text-anchor="middle">PROJECTS</text>
+</svg>
+</div>
+
+<div class="audit-legend">
+<div class="legend-item">
+<span class="legend-dot project-pass"></span>
+<div>
+<strong>Passed</strong>
+<span id="project-pass-count">0</span>
+</div>
+</div>
+<div class="legend-item">
+<span class="legend-dot project-fail"></span>
+<div>
+<strong>Failed</strong>
+<span id="project-fail-count">0</span>
+</div>
+</div>
+</div>
+</article>
+
+<!-- GRAPH 3 — PISCINE -->
+<article class="graph-card">
+<div class="graph-header">
+<div>
+<p class="eyebrow">GRAPH 03</p>
+<h3>Piscine Performance</h3>
+<p>JavaScript and Go exercise results.</p>
+</div>
+<div class="graph-value">
+<span id="piscine-total">0</span>
+<small>exercises</small>
+</div>
+</div>
+
+<div id="piscine-graphs" class="piscine-graphs"></div>
+</article>
+
+
+</section>
+</section>
+</main>
+
+<!-- ================= JAVASCRIPT ================= -->
+<script src="app.js"></script>
+</body>
+</html>
