@@ -1,151 +1,146 @@
-Objectives
+# 01Founders GraphQL Profile
 
-The objective of this project is to learn the GraphQL query language, by creating your own profile page.
+## Overview
 
-You'll use the GraphQL endpoint which is provided by the platform (https://((DOMAIN))/api/graphql-engine/v1/graphql). You'll be able to query your own data to populate your profile page.
+The 01Founders GraphQL Profile is a web application that allows students to log in using their 01Founders credentials and view their personal school data.
 
-So that you can access your data, you'll need to create a login page.
+The application retrieves information from the 01Founders GraphQL API and presents it through a profile dashboard with statistics and SVG visualisations.
 
-Your profile must display three pieces of information which you may choose. For example:
+## Features
 
-Basic user identification
-XP amount
-grades
-audits
-skills
-Beside those sections it will have a mandatory section for the generation of statistic graphs.
+### Authentication
+- Log in using 01Founders credentials.
+- Authenticate through the 01Founders authentication API.
+- Store the returned JWT for authenticated GraphQL requests.
+- Log out and clear the stored authentication token.
+- Display an error message if authentication fails.
 
-Instructions
+### Student Profile
 
-You will have to create a profile UI where you can see your own school information. This information/data is present on the GraphQL endpoint, where you will have to query it.
+The profile dashboard displays:
+- Username
+- Student ID
+- Total XP
+- Audit ratio
+- Campus
 
-The UI design is up to you. However, it must have a statistic section where you can generate graphs to see more about your journey and achievements on the school. This graph must be done using SVG. You need to do at least two different statistic graphs for the data given. Bear in mind the principles of a good UI.
+### Statistics and Graphs
 
-Using SVG you can create several types of graphs including interactive graphs and animated graph. It will be up to you to decide what type of graphs you are going to do.
+The application includes the following visualisations:
 
-Here are some possible combinations for the creation of the graphs:
+**1. Audit Ratio**
+- Displays audits given compared with audits received.
+- Shows the student's audit ratio.
+- Uses an SVG chart to represent the data.
 
-XP earned in a time period (progress over time)
-XP earned by project
-Audit ratio
-Projects PASS and FAIL ratio
-Piscine (JS/Go) stats
-PASS and FAIL ratio
-Attempts for each exercise
-Any other information you desire to display is welcome and will be noted.
+**2. Project PASS/FAIL**
+- Displays project pass and fail results.
+- Shows the total number of results.
+- Calculates the project pass percentage.
+- Uses an SVG chart to visualise the results.
 
-Login Page
+**3. Piscine Performance**
+- Displays JavaScript and Go Piscine exercise performance.
+- Shows passed and failed exercises.
+- Uses an SVG chart to represent the results.
 
-You'll need a JWT to access the GraphQL API. A JWT can be obtained from the signin endpoint (https://((DOMAIN))/api/auth/signin).
+**4. Attempts per Exercise**
+- Displays the number of attempts made for each Piscine exercise.
+- Uses an SVG chart to compare attempts.
 
-You may make a POST request to the signin endpoint, and supply your credentials using Basic authentication, with base64 encoding.
+## Technologies Used
 
-Your login page must function with both:
+- HTML5
+- CSS3
+- JavaScript
+- GraphQL
+- SVG
 
-username:password
-email:password
-If the credentials are invalid, an appropriate error message must be displayed.
+No external charting library is required for the visualisations.
 
-You must provide a method to log out.
+## API
 
-When making GraphQL queries, you'll supply the JWT using Bearer authentication. It will only allow access to the data belonging to the authenticated user.
+The application uses the following 01Founders endpoints.
 
-You may inspect the JWT to discover the ID of the authenticated user.
-Hosting
+**Authentication**
 
-Besides the creation of your own profile you will have to host it. There are several places where you can host your profile, for example: github-pages, netlify and so on. You are free to choose the hosting place.
+`https://learn.01founders.co/api/auth/signin`
 
-Here are a selection of interesting tables and columns which are exposed via GraphQL:
+Used to authenticate students and obtain a JWT.
 
-user table:
+**GraphQL**
 
-This table will have information about the user.
+`https://learn.01founders.co/api/graphql-engine/v1/graphql`
 
-id	login
-1	person1
-transaction table:
+Used to retrieve student profile information, audit data, project results and Piscine progress.
 
-This table will give you access to XP and through user table you can get to the audits ratio as well.
+Authenticated GraphQL requests include the JWT in the request header:
 
-id	type	amount	objectId	userId	createdAt	path
-1	xp	234	42	1	2021-07-26T13:04:02.301092+00:00	/madere/div-01/graphql
-2	xp	1700	2	1	2021-07-26T13:04:02.301092+00:00	/madere/div-01/graphql
-3	xp	175	64	1	2021-07-26T13:04:02.301092+00:00	/madere/div-01/graphql
-progress table:
+`Authorization: Bearer <JWT>`
 
-id	userId	objectId	grade	createdAt	updatedAt	path
-1	1	3001	1	2021-07-26T13:04:02.301092+00:00	2021-07-26T13:04:02.301092+00:00	/madere/piscine-go/quest-01
-2	1	198	0	2021-07-26T13:04:02.301092+00:00	2021-07-26T13:04:02.301092+00:00	/madere/piscine-go/quest-01
-3	1	177	1	2021-07-26T13:04:02.301092+00:00	2021-07-26T13:04:02.301092+00:00	/madere/piscine-go/quest-01
-result table:
+## Project Structure
 
-Both progress and result table will give you the student progression.
+```text
+graphql-profile/
+│
+├── index.html
+├── style.css
+├── app.js
+└── README.md
+```
 
-id	objectId	userId	grade	type	createdAt	updatedAt	path
-1	3	1	0		2021-07-26T13:04:02.301092+00:00	2021-07-26T13:04:02.301092+00:00	/madere/div-01/graphql
-2	23	1	0		2021-07-26T13:04:02.301092+00:00	2021-07-26T13:04:02.301092+00:00	/madere/div-01/graphql
-3	41	1	1		2021-07-26T13:04:02.301092+00:00	2021-07-26T13:04:02.301092+00:00	/madere/div-01/graphql
-object table:
+| File | Description |
+|---|---|
+| `index.html` | Application structure and dashboard layout |
+| `style.css` | Styling and responsive layout |
+| `app.js` | Authentication, GraphQL requests and chart rendering |
+| `README.md` | Project documentation |
 
-This table will give you information about all objects (exercises/projects).
+## Getting Started
 
-id	name	type	attrs
-1	0	exercise	{}
-2	0	project	{}
-3	1	exercise	{}
-For more information about the tables and their columns you check out the database-structure and database-relations.
+### Prerequisites
 
-Examples:
+- An active 01Founders student account.
+- A modern web browser.
+- Python 3 or another local HTTP server.
 
-Lets take for instance the table user and try to query it:
+### Installation
 
-{
-  user {
-    id
-  }
-}
-This simple query will return an array with the id of the authenticated user. If you wanted the login, you could just add the attribute to the query like so:
+1. Clone or download the project repository.
 
-{
-  user {
-    id
-    login
-  }
-}
-Here is another example of a query using the table user:
+2. Open the project folder in your terminal.
 
-{
-  object(where: { id: { _eq: 3323 }}) {
-    name
-    type
-  }
-}
-Note: that for this query the introduction of variables (arguments) is required, so it will return just one object with the id equal to 3323.
-In GraphQL, the usage of arguments are specified in the schema. You can see the available query parameters by introspecting the API.
+3. Start a local development server:
 
-If you're logged in to the platform, you may access GraphiQL to more easily explore the schema.
-Example of nesting using the result and user table:
+```bash
+python3 -m http.server 8000
+```
 
-{
-  result {
-    id
-    user {
-      id
-      login
-    }
-  }
-}
-For this example we ask for the results id and user that is associated to the result, requesting the user login and his id.
+4. Open the application in your browser:
 
-You must use all the types of querying present above (normal, nested and using arguments), do not forget that you can use the types together or separately.
+```text
+http://localhost:8000
+```
 
-This project will help you learn about:
+5. Log in using your 01Founders username and password.
 
-GraphQL
-GraphiQL
-Hosting
-JWT
-Authentication
-Authorization
-Basics of human-computer interface
-UI/UX
+6. Once authenticated, the application loads your profile and statistics.
+
+## Responsive Design
+
+The application is designed to work across different screen sizes, including desktop, tablet and mobile devices.
+
+The layout adjusts to smaller screens to keep the profile information and graphs accessible.
+
+## Security
+
+- User credentials are submitted through an HTTP POST request rather than being placed in the URL.
+- Authenticated GraphQL requests use a JWT.
+- The application does not include hardcoded student credentials.
+- Users can log out to clear their stored authentication token.
+
+**Note:** The JWT is stored in browser local storage for this project. Avoid using the application on shared or untrusted devices.
+
+## Author
+
+01Founders Student Project
